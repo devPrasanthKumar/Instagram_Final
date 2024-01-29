@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+{%for follow in follows%}
+{{follow.followed.username}}
+{{follow.username}}
+
+{%endfor%}
+{% endblock %}

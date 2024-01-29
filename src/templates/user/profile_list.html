@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <h1>Profile List</h1>
+
+  <!-- Search Bar -->
+  <form method="get" action="{% url 'profile_list' %}">
+    <div class="input-group mb-3">
+      <form action="" method = "post">
+      <input type="text" class="form-control" placeholder="Search by username" name="search">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" href="{%url 'profile_list'%}" type="submit">Search</button>
+      </form>
+      </div>
+    </div>
+  </form>
+
+  {% for profile in profiles %}
+  <a href="{% url 'profile' profile.pk %}" style="text-decoration:none">
+    <div class="card mx-auto">
+      <img src="{{ profile.profile_image.url }}" class="card-img-top img-cover rounded-circle-border" style="width:100px;height:100px" alt="{{ profile.username }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ profile.username }}</h5>
+        <p class="card-text">{{ profile.bio }}</p>
+        <p class="card-text">Email: {{ profile.email }}</p>
+        <p class="card-text">Location: {{ profile.locations }}</p>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+{% endblock %}

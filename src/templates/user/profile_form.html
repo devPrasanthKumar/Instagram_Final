@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post" class="form auth__form", enctype="multipart/form-data">
+    {% csrf_token%}
+    {% for field in form%}
+    <div class="form__field">
+        <label for="formInput#text">{{field.label}} </label>
+        {{field}}
+    </div>
+    {%endfor%}
+
+    <div class="auth__actions">
+      <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+  </form>
+
+{% endblock content %}
+
+
+

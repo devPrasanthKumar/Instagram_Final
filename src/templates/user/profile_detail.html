@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+          <img src="{{ profiles.profile_image.url }}" class="card-img-top img-cover rounded-circle-border" alt="">
+          <div class="ml-3">
+            <div class="d-flex flex-column align-items">
+              <a href="{%url 'update' profiles.pk %}">edit</a>
+             <p style="text-align: center;"><span class="mb-2"> {{ posts_count }} post</span>
+              <span class="mb-2"> {{ profiles.get_follower.count }} followers</span>
+              <a href="{%url 'follow_list' request.user.pk%}" style="color:black;">{{ profiles.get_following.count }} following</a></p>
+            </div>
+          </div>
+        <br>
+        <h5 class="card-title">{{ profiles.username }}</h5>
+        <p class="card-text">{{ profiles.name }}</p>
+        <p class="card-text">{{ profiles.bio}}</p>
+        <p class="card-text">{{ profiles.locations }}</p>
+        <form  method="POST" action ="{% url 'follow' profiles.pk %}">
+          {% csrf_token %}
+          <input type="hidden" name="username" value="">
+          {% if following_user %}
+            <button type="submit" class="btn btn-danger">Unfollow</button>
+          {% else %}
+          <button type="submit" class="btn btn-primary">Follow</button>
+          {% endif %}
+        </form>
+        {{ following_user }}
+        {%for post in posts%}
+          <a href="{%url 'detail' post.pk%}"><img style="display:flex; flex-direction:row; width:400px; height:400px;" src="{{ post.image.url }}" alt="">
+          </a>
+          {%endfor%}
+      </div> 
+      </div>
+      
+    </div>
+  </div>
+  <style>
+    .rounded-circle-border {
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      width:150px;
+      height: 150px;
+      overflow: hidden;
+    }
+  </style>
+{% endblock %}
+
+

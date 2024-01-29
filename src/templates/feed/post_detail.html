@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        
+    <div class="col-md-4 mx-auto ">
+<a href="{% url 'profile' post.user.pk%}" style="bl"><h5 class="card-title">{{ post.user.username }}</h5></a>
+{% if post.user == user %}
+                <a href="{% url 'edit' post.pk %}"><svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+                </a>
+                <a href="{% url 'delete' post.pk %}"><svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+                </svg>
+                </a>
+                {% endif %}
+      <img src="{{ post.image.url }}" alt="Post Image" style="height:400px;width:400px">
+      <div class="card-body">
+        <div class="like" style="display:flex;">
+          {% if users_likes %}
+          <form method="post" action="{% url 'like' post.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Unlike</button>
+          </form>
+        {% else %}
+          <form method="post" action="{% url 'like' post.id %}">
+            {% csrf_token %}
+            <button style="border:none;" type="submit">
+              <svg id="i-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="25" height="25" fill="none"
+                stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
+              </svg>Like
+            </button>
+            {% endif %}
+
+          <a href="{% url 'comment_list' post.pk %}" style="color:black;"><svg xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-message-circle" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1" />
+            </svg></a>
+        </div>
+        <p>Likes: {{ like_count }}</p>
+        <p class="card-text text-truncate">{{ post.caption|slice:"150"}}</p>
+    </div>
+</div> 
+{% endblock %}
